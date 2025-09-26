@@ -76,7 +76,10 @@ const Dashboard = () => {
             <p className="text-lg text-muted-foreground mb-6">
               Transform your admission process with our gaming-inspired CRM
             </p>
-            <Button className="bg-gradient-primary hover:glow-effect animate-pulse-glow">
+            <Button 
+              className="bg-gradient-primary hover:glow-effect animate-pulse-glow"
+              onClick={() => window.location.href = '/inquiries'}
+            >
               Start Managing
             </Button>
           </div>
@@ -106,34 +109,9 @@ const Dashboard = () => {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Quick Actions */}
-        <Card className="gaming-card">
-          <CardHeader>
-            <CardTitle className="gradient-text">Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Button className="w-full justify-start bg-gradient-primary hover:glow-effect">
-              <Phone className="w-4 h-4 mr-2" />
-              Schedule Follow-up Call
-            </Button>
-            <Button className="w-full justify-start bg-gradient-secondary hover:glow-accent">
-              <Mail className="w-4 h-4 mr-2" />
-              Send Email Campaign
-            </Button>
-            <Button className="w-full justify-start bg-gradient-success hover:glow-success">
-              <MessageSquare className="w-4 h-4 mr-2" />
-              WhatsApp Broadcast
-            </Button>
-            <Button className="w-full justify-start bg-warning hover:glow-effect">
-              <Calendar className="w-4 h-4 mr-2" />
-              View Calendar
-            </Button>
-          </CardContent>
-        </Card>
-
+      <div className="grid grid-cols-1 gap-6">
         {/* Recent Activities */}
-        <Card className="gaming-card lg:col-span-2">
+        <Card className="gaming-card">
           <CardHeader>
             <CardTitle className="gradient-text">Recent Activities</CardTitle>
           </CardHeader>

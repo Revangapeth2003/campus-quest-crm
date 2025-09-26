@@ -137,10 +137,6 @@ const FeeManagement = () => {
           <h1 className="text-3xl font-bold gradient-text">Fee Management</h1>
           <p className="text-muted-foreground">Track payments and manage fee collections</p>
         </div>
-        <Button className="bg-gradient-primary hover:glow-effect">
-          <Download className="w-4 h-4 mr-2" />
-          Export Report
-        </Button>
       </div>
 
       {/* Summary Cards */}

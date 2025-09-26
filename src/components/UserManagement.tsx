@@ -19,12 +19,16 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
+import UserFormDialog from "./UserFormDialog";
 
 const UserManagement = () => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [dialogMode, setDialogMode] = useState<"add" | "edit" | "view">("add");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [users] = useState([
     {
@@ -141,32 +145,27 @@ const UserManagement = () => {
   });
 
   const handleAddUser = () => {
-    toast({
-      title: "Add New User",
-      description: "Opening user creation form...",
-    });
+    setSelectedUser(null);
+    setDialogMode("add");
+    setIsDialogOpen(true);
   };
 
   const handleEditUser = (user: any) => {
-    toast({
-      title: "Edit User",
-      description: `Opening edit form for ${user.name}`,
-    });
+    setSelectedUser(user);
+    setDialogMode("edit");
+    setIsDialogOpen(true);
   };
 
   const handleDeleteUser = (user: any) => {
-    toast({
-      title: "Delete User",
-      description: `Are you sure you want to delete ${user.name}?`,
-      variant: "destructive",
-    });
+    setSelectedUser(user);
+    setDialogMode("view");
+    setIsDialogOpen(true);
   };
 
   const handleViewDetails = (user: any) => {
-    toast({
-      title: "User Details",
-      description: `Viewing detailed information for ${user.name}`,
-    });
+    setSelectedUser(user);
+    setDialogMode("view");
+    setIsDialogOpen(true);
   };
 
   const roleStats = {
@@ -392,6 +391,13 @@ const UserManagement = () => {
           </CardContent>
         </Card>
       )}
+
+      <UserFormDialog 
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        user={selectedUser}
+        mode={dialogMode}
+      />
     </div>
   );
 };

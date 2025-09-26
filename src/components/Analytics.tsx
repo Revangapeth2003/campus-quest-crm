@@ -144,10 +144,6 @@ const Analytics = () => {
             <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
-          <Button onClick={handleExport} className="bg-gradient-primary hover:glow-effect">
-            <Download className="w-4 h-4 mr-2" />
-            Export
-          </Button>
         </div>
       </div>
 

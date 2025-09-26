@@ -17,14 +17,17 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import ApplicationDetailsDialog from "./ApplicationDetailsDialog";
 
 const AdmissionTracker = () => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [stageFilter, setStageFilter] = useState("all");
   const [courseFilter, setCourseFilter] = useState("all");
+  const [selectedApplication, setSelectedApplication] = useState(null);
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
 
-  const [admissions] = useState([
+  const [admissions, setAdmissions] = useState([
     {
       id: 1,
       name: "Sarah Johnson",
@@ -76,11 +79,11 @@ const AdmissionTracker = () => {
   ]);
 
   const stages = [
-    { key: "application-submitted", label: "Application Submitted", icon: Clock, color: "bg-gradient-secondary" },
-    { key: "document-verification", label: "Document Verification", icon: Eye, color: "bg-warning" },
-    { key: "interview-scheduled", label: "Interview Scheduled", icon: AlertCircle, color: "bg-gradient-primary" },
-    { key: "admitted", label: "Admitted", icon: CheckCircle, color: "bg-gradient-success" },
-    { key: "rejected", label: "Rejected", icon: XCircle, color: "bg-destructive" },
+    { key: "application-submitted", label: "Application Submitted", icon: Clock, color: "bg-gradient-secondary", progress: 25 },
+    { key: "document-verification", label: "Document Verification", icon: Eye, color: "bg-warning", progress: 50 },
+    { key: "interview-scheduled", label: "Interview Scheduled", icon: AlertCircle, color: "bg-gradient-primary", progress: 75 },
+    { key: "admitted", label: "Admitted", icon: CheckCircle, color: "bg-gradient-success", progress: 100 },
+    { key: "rejected", label: "Rejected", icon: XCircle, color: "bg-destructive", progress: 0 },
   ];
 
   const getStageInfo = (stage: string) => {
@@ -98,17 +101,23 @@ const AdmissionTracker = () => {
   });
 
   const handleViewDetails = (admission: any) => {
-    toast({
-      title: "View Details",
-      description: `Opening detailed view for ${admission.name}`,
-    });
+    setSelectedApplication(admission);
+    setIsDetailsDialogOpen(true);
   };
 
-  const handleUpdateStage = (admission: any) => {
-    toast({
-      title: "Update Stage",
-      description: `Updating admission stage for ${admission.name}`,
-    });
+  const handleUpdateStage = (newStage: string) => {
+    if (selectedApplication) {
+      const updatedAdmissions = admissions.map(a => 
+        a.id === selectedApplication.id 
+          ? { 
+              ...a, 
+              stage: newStage,
+              progress: stages.find(s => s.key === newStage)?.progress || 0
+            }
+          : a
+      );
+      setAdmissions(updatedAdmissions);
+    }
   };
 
   return (
@@ -119,10 +128,6 @@ const AdmissionTracker = () => {
           <h1 className="text-3xl font-bold gradient-text">Admission Tracker</h1>
           <p className="text-muted-foreground">Track application progress and manage admissions</p>
         </div>
-        <Button className="bg-gradient-primary hover:glow-effect">
-          <Download className="w-4 h-4 mr-2" />
-          Export Report
-        </Button>
       </div>
 
       {/* Stage Overview */}
@@ -259,14 +264,14 @@ const AdmissionTracker = () => {
                     <Eye className="w-3 h-3 mr-1" />
                     View
                   </Button>
-                  <Button 
-                    size="sm" 
-                    className="bg-gradient-primary hover:glow-effect"
-                    onClick={() => handleUpdateStage(admission)}
-                  >
-                    <Edit className="w-3 h-3 mr-1" />
-                    Update Stage
-                  </Button>
+                   <Button 
+                     size="sm" 
+                     className="bg-gradient-primary hover:glow-effect"
+                     onClick={() => handleViewDetails(admission)}
+                   >
+                     <Edit className="w-3 h-3 mr-1" />
+                     Update Stage
+                   </Button>
                 </div>
               </CardContent>
             </Card>
@@ -281,6 +286,13 @@ const AdmissionTracker = () => {
           </CardContent>
         </Card>
       )}
+
+      <ApplicationDetailsDialog 
+        isOpen={isDetailsDialogOpen}
+        onClose={() => setIsDetailsDialogOpen(false)}
+        application={selectedApplication}
+        onUpdateStage={handleUpdateStage}
+      />
     </div>
   );
 };

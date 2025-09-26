@@ -16,12 +16,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import AddInquiryDialog from "./AddInquiryDialog";
 
 const InquiryManagement = () => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   const [inquiries] = useState([
     {
@@ -100,10 +102,7 @@ const InquiryManagement = () => {
   });
 
   const handleAddInquiry = () => {
-    toast({
-      title: "Add New Inquiry",
-      description: "Opening inquiry form...",
-    });
+    setIsAddDialogOpen(true);
   };
 
   const handleContactInquiry = (type: string, inquiry: any) => {
@@ -128,16 +127,10 @@ const InquiryManagement = () => {
           <h1 className="text-3xl font-bold gradient-text">Inquiry Management</h1>
           <p className="text-muted-foreground">Manage and track all student inquiries</p>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={handleExport} variant="outline" className="hover:glow-effect">
-            <Download className="w-4 h-4 mr-2" />
-            Export
-          </Button>
-          <Button onClick={handleAddInquiry} className="bg-gradient-primary hover:glow-effect">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Inquiry
-          </Button>
-        </div>
+        <Button onClick={handleAddInquiry} className="bg-gradient-primary hover:glow-effect">
+          <Plus className="w-4 h-4 mr-2" />
+          Add Inquiry
+        </Button>
       </div>
 
       {/* Filters */}
@@ -255,6 +248,11 @@ const InquiryManagement = () => {
           </CardContent>
         </Card>
       )}
+
+      <AddInquiryDialog 
+        isOpen={isAddDialogOpen}
+        onClose={() => setIsAddDialogOpen(false)}
+      />
     </div>
   );
 };
