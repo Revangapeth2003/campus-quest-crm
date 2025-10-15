@@ -47,7 +47,7 @@ const Navigation = () => {
       `}>
         <div className="p-6">
           <h1 className="text-2xl font-bold gradient-text mb-8">
-            AdmissionCRM
+            Settlo AdmissionCRM
           </h1>
           
           <div className="space-y-2">
