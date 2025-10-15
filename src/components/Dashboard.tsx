@@ -71,7 +71,7 @@ const Dashboard = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-background/90 to-transparent flex items-center">
           <div className="p-8">
             <h1 className="text-4xl font-bold gradient-text mb-4 animate-bounce-in">
-              Welcome to AdmissionCRM
+              Welcome to settlo AdmissionCRM
             </h1>
             <p className="text-lg text-muted-foreground mb-6">
               Transform your admission process with our gaming-inspired CRM
